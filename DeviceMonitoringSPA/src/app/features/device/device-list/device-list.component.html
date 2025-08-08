@@ -1,0 +1,12 @@
+<div class="device-list">
+  <h2>Список устройств</h2>
+  
+  <div *ngFor="let device of devices$ | async" class="device-card">
+    <h3>{{ device.name }}</h3>
+    <p><strong>ID:</strong> {{ device._id }}</p>
+    <p><strong>Версия:</strong> {{ device.version }}</p>
+    <p><strong>Начало сессии:</strong> {{ device.startTime | date:'medium' }}</p>
+    <p><strong>Конец сессии:</strong> {{ device.endTime | date:'medium' }}</p>
+  </div>
+  <button mat-button (click)="clearOldRecords()">Удалить старые записи</button>
+</div>

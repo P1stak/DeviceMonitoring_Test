@@ -1,0 +1,123 @@
+<div class="app-container">
+  <!-- Шапка приложения -->
+  <header class="app-header">
+    <div class="header-content">
+      <i class="material-icons">monitoring</i>
+      <h1>Мониторинг устройств</h1>
+    </div>
+    <button class="refresh-btn" (click)="refreshDevices()">
+      <i class="material-icons">refresh</i>
+      Обновить
+    </button>
+  </header>
+
+  <!-- Добавляем в существующий шаблон, например после header -->
+  <div class="control-panel">
+  <div class="control-group">
+    <div class="control-item">
+      <label for="cutoffDate">Удалить записи старше:</label>
+      <input type="date" id="cutoffDate" [(ngModel)]="cutoffDate">
+      <button class="danger-btn" (click)="clearOldRecords()" [disabled]="!cutoffDate">
+        <i class="material-icons">delete_forever</i>
+        Удалить
+      </button>
+    </div>
+    
+    <div class="control-item">
+      <label for="backupFileName">Имя файла бэкапа:</label>
+      <input type="text" id="backupFileName" [(ngModel)]="backupFileName" placeholder="backup.json">
+      <button class="primary-btn" (click)="createBackup()">
+        <i class="material-icons">backup</i>
+        Создать бэкап
+      </button>
+    </div>
+  </div>
+</div>
+
+  <!-- Основной контент -->
+  <div class="main-content">
+    <!-- Левая панель - список устройств -->
+    <div class="devices-panel">
+      <div class="panel-toolbar">
+        <div class="search-box">
+          <i class="material-icons">search</i>
+          <input type="text" placeholder="Поиск устройств..." [(ngModel)]="searchQuery">
+        </div>
+        
+        <div class="stats-badge">
+          <span class="total">{{filteredDevices.length}} устройств</span>
+          <span class="active">{{activeDevicesCount}} активных</span>
+        </div>
+      </div>
+
+      <div class="devices-list">
+        <div *ngFor="let device of filteredDevices" 
+             class="device-item"
+             [class.active]="isDeviceActive(device)"
+             [class.selected]="(deviceService.selectedDevice$ | async)?.id === device.id"
+             (click)="deviceService.selectDevice(device)">
+             
+          <div class="device-status-indicator" [class.online]="isDeviceActive(device)"></div>
+          
+          <div class="device-info">
+            <h3>{{device.name}}</h3>
+            <div class="meta-row">
+              <span class="version">v{{device.version}}</span>
+              <span class="duration">{{calculateDuration(device.startTime, device.endTime)}}</span>
+            </div>
+          </div>
+          
+          <i class="material-icons">chevron_right</i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Правая панель - детали устройства -->
+    <div class="details-panel" *ngIf="deviceService.selectedDevice$ | async as device">
+      <div class="panel-header">
+        <h2>Детали устройства</h2>
+        <button class="close-btn" (click)="deviceService.selectDevice(null)">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="device-details">
+        <div class="detail-section">
+          <div class="detail-row">
+            <span class="label">ID:</span>
+            <span class="value">{{device.id}}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Название:</span>
+            <span class="value">{{device.name}}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Версия:</span>
+            <span class="value">{{device.version}}</span>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <div class="status-badge" [class.online]="isDeviceActive(device)">
+            {{isDeviceActive(device) ? 'Online' : 'Offline'}}
+          </div>
+          
+          <div class="time-info">
+            <div class="time-row">
+              <i class="material-icons">play_circle</i>
+              <span>{{device.startTime | date:'dd.MM.yyyy HH:mm'}}</span>
+            </div>
+            <div class="time-row">
+              <i class="material-icons">stop_circle</i>
+              <span>{{device.endTime | date:'dd.MM.yyyy HH:mm'}}</span>
+            </div>
+            <div class="time-row">
+              <i class="material-icons">timer</i>
+              <span>{{calculateDuration(device.startTime, device.endTime)}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
