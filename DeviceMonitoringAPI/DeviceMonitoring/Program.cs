@@ -4,7 +4,7 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.WebHost.UseUrls("http://localhost:5223", "https://localhost:7086");
+builder.WebHost.UseUrls("http://*:5223");
 
 // Контроллеры
 builder.Services.AddControllers()

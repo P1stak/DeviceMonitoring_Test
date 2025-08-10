@@ -3,7 +3,7 @@
   
   <div *ngFor="let device of devices$ | async" class="device-card">
     <h3>{{ device.name }}</h3>
-    <p><strong>ID:</strong> {{ device._id }}</p>
+    <p><strong>ID:</strong> {{ device.id }}</p>
     <p><strong>Версия:</strong> {{ device.version }}</p>
     <p><strong>Начало сессии:</strong> {{ device.startTime | date:'medium' }}</p>
     <p><strong>Конец сессии:</strong> {{ device.endTime | date:'medium' }}</p>

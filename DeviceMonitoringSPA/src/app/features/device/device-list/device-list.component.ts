@@ -8,6 +8,7 @@ import { DeviceService } from '../../../core/services/device.service';
   styleUrls: ['./device-list.component.less']
 })
 export class DeviceListComponent {
+  devices$ = this.deviceService.devices$;
   constructor(private deviceService: DeviceService) {}
 
   clearOldRecords(): void {

@@ -1,18 +1,13 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-
-COPY DeviceMonitoringAPI.sln .
 COPY DeviceMonitoring/DeviceMonitoring.csproj ./DeviceMonitoring/
-RUN dotnet restore
-
+RUN dotnet restore "DeviceMonitoring/DeviceMonitoring.csproj"
 COPY DeviceMonitoring/ ./DeviceMonitoring/
+RUN dotnet publish "DeviceMonitoring/DeviceMonitoring.csproj" -c Release -o /app
 
-WORKDIR "/src/DeviceMonitoring"
-RUN dotnet publish -c Release -o /app/publish
-
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-EXPOSE 80
-ENV ASPNETCORE_URLS=http://+:80
-COPY --from=build /app/publish .
+COPY --from=build /app .
+ENV ASPNETCORE_URLS=http://*:5223
+EXPOSE 5223
 ENTRYPOINT ["dotnet", "DeviceMonitoring.dll"]

@@ -8,6 +8,9 @@ import { Device } from './core/models/device.model';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
+  title(title: any) {
+    throw new Error('Method not implemented.');
+  }
   cutoffDate: string = new Date().toISOString().split('T')[0];
   backupFileName: string = 'backup.json';
   searchQuery: string = '';

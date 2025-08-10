@@ -1,11 +1,11 @@
-FROM node:16 as build
+FROM node:18 AS build
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package*.json .
 RUN npm install
 COPY . .
-RUN npm run build -- --output-path=dist/device-monitoring-spa
+RUN npm run build
 
 FROM nginx:alpine
-COPY --from=build /app/dist/device-monitoring-spa /usr/share/nginx/html
+COPY --from=build /app/dist/DeviceMonitoringSPA /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80

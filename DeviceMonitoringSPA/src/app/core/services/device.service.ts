@@ -23,7 +23,7 @@ interface Device {
   providedIn: 'root'
 })
 export class DeviceService {
-  private apiUrl = 'https://localhost:7086/api/Device';
+  private apiUrl = '/api/Device';
   private devicesSubject = new BehaviorSubject<Device[]>([]);
   private selectedDeviceSubject = new BehaviorSubject<Device | null>(null);
   
