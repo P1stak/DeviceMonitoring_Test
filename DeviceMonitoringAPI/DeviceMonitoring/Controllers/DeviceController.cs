@@ -104,7 +104,7 @@ namespace DeviceMonitoring.Controllers
         }
 
         [HttpPost("backup")]
-        public async Task<IActionResult> CreateBackUp([FromBody] string filePath = "backup.json")
+        public async Task<IActionResult> CreateBackUp([FromBody] string filePath = "backups/backup.json")
         {
             try
             {
