@@ -12,15 +12,25 @@ DeviceMonitoring (Web API + SPA)
 
 - Рзархивируйте проект в нужной вам директории
 - Скопируйте путь к проекту, вставьте в cmd\PowerShell
+
+```
 cd "Ваша директория/DeviceMonitoring"
+```
 
 3.	Запуск
 
 Соберите и запустите контейнеры:
 
-"docker-compose build"(--no-cash)
 
-"docker-compose up"
+```
+docker-compose build --no-cash
+```
+
+затем
+
+```
+docker-compose up
+```
 
 После сборки откройте:
 
@@ -30,7 +40,7 @@ SPA: http://localhost:4200
 
 
 тестовые данные устройств добавлять через Postman:
-
+```
     {
         "Id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
         "Name": "Office Workstation",
@@ -63,3 +73,4 @@ SPA: http://localhost:4200
         "Version": "3.1.8"
     }
 
+```
